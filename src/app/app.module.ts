@@ -3,16 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormValidationsComponent } from './reactive-form/form-validations/form-validations.component';
+import { AppReactiveFormModule } from './reactive-form/reactive-form-module/app-reactive-form.module';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FormValidationsComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AppReactiveFormModule
   ],
   providers: [],
   bootstrap: [AppComponent]
