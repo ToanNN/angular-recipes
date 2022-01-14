@@ -5,9 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Routes } from '@angular/router';
 import { ReactiveRoutingModule } from '../reactive-routing.module';
 
-
-
-
 @NgModule({
   declarations: [
     FormValidationsComponent
