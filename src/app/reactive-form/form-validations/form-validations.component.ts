@@ -23,7 +23,10 @@ export class FormValidationsComponent implements OnInit {
       emailGroup: this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
         confirmEmail: ['', Validators.required]
-      }, { validator: emailMatcher }),
+      },
+        {
+          validator: emailMatcher
+        }),
       phone: '',
       notification: 'email',
       rating: [null, ratingRange(1, 5)],
@@ -39,6 +42,7 @@ export class FormValidationsComponent implements OnInit {
 
   }
 
+  // Dynamic content generation
   get addresses(): FormArray {
     return this.signUpForm.get('addresses') as FormArray;
   }
@@ -56,9 +60,11 @@ export class FormValidationsComponent implements OnInit {
   addAddress() {
     this.addresses.push(this.buildAddress());
   }
+
   ngOnInit(): void {
 
   }
+
   save() {
     console.log(this.signUpForm);
     console.log('Saved: ' + JSON.stringify(this.signUpForm.value));
