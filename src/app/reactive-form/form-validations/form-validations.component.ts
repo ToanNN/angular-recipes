@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { emailMatcher, ratingRange } from './email-matcher-validator';
 
@@ -27,7 +27,8 @@ export class FormValidationsComponent implements OnInit {
       phone: '',
       notification: 'email',
       rating: [null, ratingRange(1, 5)],
-      sendCatalog: true
+      sendCatalog: true,
+      addresses: this.formBuilder.array([this.buildAddress()])
     });
 
     this.emailMessage = '';
@@ -38,6 +39,23 @@ export class FormValidationsComponent implements OnInit {
 
   }
 
+  get addresses(): FormArray {
+    return this.signUpForm.get('addresses') as FormArray;
+  }
+
+  buildAddress(): FormGroup {
+    return this.formBuilder.group({
+      addressType: 'home',
+      street1: '',
+      street2: '',
+      city: '',
+      state: '',
+      zip: ''
+    });
+  }
+  addAddress() {
+    this.addresses.push(this.buildAddress());
+  }
   ngOnInit(): void {
 
   }
