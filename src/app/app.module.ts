@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MessageModule } from './message/message/message.module';
 import { AppReactiveFormModule } from './reactive-form/reactive-form-module/app-reactive-form.module';
+import { SecurityModule } from './security/security.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AppReactiveFormModule } from './reactive-form/reactive-form-module/app-
     BrowserModule,
     AppRoutingModule,
     AppReactiveFormModule,
-    MessageModule
+    MessageModule,
+    SecurityModule
   ],
   providers: [],
   bootstrap: [AppComponent]

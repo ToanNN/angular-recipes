@@ -1,0 +1,56 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Log in</h3>
+  </div>
+  <div class="card-body">
+    <form novalidate [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="row form-group">
+        <label class="col-form-label col-md-2" for="userName">User Name</label>
+        <div class="col-md-8 mb-5">
+          <input
+            class="form-control col-sm-8"
+            id="userName"
+            placeholder="User Name"
+            formControlName="userName"
+            required
+            [ngClass]="{'is-invalid': (userName?.touched || userName?.dirty) && !userName?.valid }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="userName?.errors?.['required']">
+              Please enter user name
+            </span>
+            <span *ngIf="userName?.errors?.['minlength']">
+              The user name must be longer than 3 characters.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <label class="col-form-label col-md-2">Password</label>
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            formControlName="password"
+            type="password"
+            [ngClass]="{'is-invalid': (password?.touched || password?.dirty) && !password?.valid }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="password?.errors?.['required']">
+              Password is required.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn btn-outline-secondary" type="button" style="width: 80px;" [routerLink]="['/welcome']">
+          Cancel
+        </button>
+        <button class="btn btn-primary mr-3" type="submit" style="width: 80px;" [disabled]="!loginForm.valid">
+          Log In
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
