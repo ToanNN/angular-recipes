@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, Event, NavigationStart, Router } from '@angular/router';
+import { slideInAnimation } from './app.animation';
 import { MessageService } from './message/message.service';
 import { AuthService } from './security/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations: [slideInAnimation]
 })
 export class AppComponent {
   title = 'Angular Recipes';
@@ -29,12 +31,15 @@ export class AppComponent {
   constructor(private authService: AuthService,
     private router: Router,
     private messageService: MessageService) {
-    router.events.subscribe(this.checkRouterEvent)
+    router.events.subscribe((routeEvent: Event) => {
+      this.checkRouterEvent(routeEvent);
+    })
   }
 
   checkRouterEvent(routerEvent: Event): void {
     if (routerEvent instanceof NavigationStart) {
       this.loading = true;
+      return;
     }
 
     if (routerEvent instanceof NavigationEnd ||

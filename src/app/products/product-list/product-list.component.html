@@ -1,1 +1,55 @@
-<p>product-list works!</p>
+<div class="card">
+  <div class="card-header">Product List</div>
+  <div class="card-body">
+    <div class="row">
+      <label>Filter by:</label>
+      <input type="text" [(ngModel)]="filterText" />
+    </div>
+    <div class="row">
+      <table class="table-responsive table">
+        <thead>
+          <tr>
+            <td></td>
+            <td>Product</td>
+            <td>Code</td>
+            <td>Avaiblable</td>
+            <td>Price</td>
+            <td>Rating</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prod of filteredProducts">
+            <td>
+              <img
+                [src]="prod.imageUrl"
+                [title]="prod.productName"
+                [style.width.px]="imageWidth"
+                [style.margin.px]="imageMargin"
+              />
+            </td>
+            <td>
+              <a [routerLink]="['/products', prod.id]">
+                {{prod.productName}}
+              </a>
+            </td>
+            <td>{{prod.productCode}}</td>
+            <td>{{prod.releaseDate}}</td>
+            <td>{{prod.price | currency: "USD":"symbol":"1.2-2"}}</td>
+            <td>
+              <app-star [rating]="prod.starRating"></app-star>
+            </td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm" [routerLink]="['/products', prod.id,'edit']">
+                Edit
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div *ngIf="errorMessage" class="alert alert-danger">
+  Error: {{ errorMessage }}
+</div>
