@@ -12,3 +12,9 @@ export interface Product {
   category: string;
 }
 
+export interface ResolvedProduct {
+  product: Product | null;
+  error?: string;
+
+}
+

@@ -46,7 +46,7 @@ import { ProductDataInMemoryDbService } from './product-data';
           path: ':id/edit',
           component: ProductEditComponent,
           canDeactivate: [ProductEditGuard],
-          resolve: { resolvedData: ProductResolverService },
+          resolve: { product: ProductResolverService },
           children: [
             { path: '', redirectTo: 'info', pathMatch: 'full' },
             { path: 'info', component: ProductEditInfoComponent },
