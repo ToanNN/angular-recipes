@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
-import { catchError, map, mergeMap, Observable, of, take } from 'rxjs';
-import { Product, ResolvedProduct } from './product';
+import { catchError, map, Observable, of } from 'rxjs';
+import { ResolvedProduct } from './product';
 import { ProductService } from './product.service';
 
 @Injectable({

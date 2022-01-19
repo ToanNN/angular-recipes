@@ -11,7 +11,7 @@ import { ProductEditGuard } from './product-edit.guard';
 import { ProductEditInfoComponent } from './product-edit-info/product-edit-info.component';
 import { ProductEditTagsComponent } from './product-edit-tags/product-edit-tags.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ProductDataInMemoryDbService } from './product-data';
 
@@ -31,6 +31,7 @@ import { ProductDataInMemoryDbService } from './product-data';
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(ProductDataInMemoryDbService),
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(
       [
         {

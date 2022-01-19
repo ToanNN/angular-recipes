@@ -1,1 +1,22 @@
-<p>product-edit works!</p>
+<div class="card">
+  <div class="card-header" *ngIf="product">
+    {{pageTitle + ":" + product.productName}}
+  </div>
+  <div class="card-body" *ngIf="product">
+    <form novalidate (ngSubmit)="saveProduct()" [formGroup]="productForm"></form>
+
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <button class="btn btn-danger mr-3" style="width: 80px;"><i class="bi bi-arrow-left"></i>Back</button>
+        <button
+          class="btn btn-outline-primary"
+          style="width: 80px; margin-left: 5px;"
+          [routerLink]="['/products', product.id, 'edit']"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+</div>

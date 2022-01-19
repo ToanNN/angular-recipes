@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, retry, throwError } from 'rxjs';
+import { catchError, Observable, of, retry, tap, throwError } from 'rxjs';
 import { Product } from './product';
 
 @Injectable({
@@ -12,10 +12,11 @@ export class ProductService {
     if (productId === 0) {
       return of({} as Product);
     }
-    const url = `${this.productUrl}/${productId}}`;
+    const url = `${this.productUrl}/${productId}`;
 
     return this.http.get<Product>(url)
-      .pipe(catchError(this.handleError));
+      .pipe(tap((pr: Product) => console.log(pr)),
+        catchError(this.handleError));
   }
 
 
