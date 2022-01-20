@@ -65,7 +65,7 @@ export class ProductEditComponent implements OnInit {
     }
 
     this.product = pro;
-    if (this.product.id === 0) {
+    if (!this.product.id) {
       this.pageTitle = 'Add Product';
     } else {
       this.pageTitle = `Edit Product: ${this.product.productName}`;
@@ -106,7 +106,7 @@ export class ProductEditComponent implements OnInit {
     if (this.productForm.valid) {
       if (this.productForm.dirty) {
         const p = { ...this.product, ...this.productForm.value };
-        if (p.id == 0) {
+        if (!p.id) {
           this.productService.createProduct(p)
             .subscribe({
               next: () => this.returnToProductList(),

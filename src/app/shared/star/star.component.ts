@@ -17,7 +17,7 @@ export class StarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.starWidth = this.rating * 75 / 5;
+    this.starWidth = this.rating * 120 / 5;
   }
 
   ratingSelected() {
