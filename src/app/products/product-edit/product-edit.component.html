@@ -31,18 +31,20 @@
 
       <div formArrayName="tags">
         <div class="form-group row mb-2" *ngFor="let tag of tags.controls; let i = index;">
-          <label for="i" class="col-sm-2 col-form-label">Tag</label>
-          <div class="col-sm-10">
+          <label [attr.for]="i" class="col-sm-2 col-form-label">
+            Tag
+          </label>
+          <div class="col-sm-8">
             <input class="form-control" [id]="i" placeholder="Tag" [formControlName]="i" />
-            <button
-              class="btn btn-outline-warning btn-sm"
-              type="button"
-              title="Delete this search tag"
-              (click)="deleteTag(i)"
-            >
-              Delete Tag
-            </button>
           </div>
+          <button
+            class="col-sm-2 btn btn-outline-warning btn-sm"
+            type="button"
+            title="Delete this search tag"
+            (click)="deleteTag(i)"
+          >
+            Delete Tag
+          </button>
         </div>
       </div>
 
