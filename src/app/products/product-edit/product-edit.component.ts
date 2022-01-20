@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { mergeMap, Subscription } from 'rxjs';
 import { NumberValidators } from 'src/app/shared/NumberValidators';
 import { Product } from '../product';
@@ -20,15 +20,20 @@ export class ProductEditComponent implements OnInit {
 
   private subscription: Subscription | undefined;
 
+  get tags(): FormArray {
+    return this.productForm.get('tags') as FormArray;
+  }
+
   constructor(private activatedRoute: ActivatedRoute,
     private productService: ProductService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private router: Router) {
     this.errorMessage = '';
     this.pageTitle = "Edit";
     this.productForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(3)]],
-      code: ['', [Validators.required, Validators.maxLength(10)]],
-      rating: ['', NumberValidators.range(1, 5)],
+      productName: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(3)]],
+      productCode: ['', [Validators.required, Validators.maxLength(10)]],
+      starRating: ['', NumberValidators.range(1, 5)],
       tags: this.formBuilder.array([]),
       description: ''
     });
@@ -67,16 +72,61 @@ export class ProductEditComponent implements OnInit {
     }
 
     this.productForm.patchValue({
-      name: this.product.productName,
-      code: this.product.productCode,
-      rating: this.product.starRating,
+      productName: this.product.productName,
+      productCode: this.product.productCode,
+      starRating: this.product.starRating,
       description: this.product.description
     });
     this.productForm.setControl('tags', this.formBuilder.array(this.product.tags || []));
   }
 
-  saveProduct() {
+  deleteTag(index: number): void {
+    this.tags.removeAt(index);
+    this.tags.markAsDirty();
+  }
 
+  addTag(): void {
+    this.tags.push(new FormControl());
+  }
+
+  deleteProduct() {
+    if (this.product && confirm('Are you sure you want to delete this product?')) {
+      this.productService.deleteProduct(this.product.id).subscribe({
+        next: () => this.returnToProductList(),
+        error: err => this.errorMessage = err
+      });
+    }
+  }
+
+  returnToProductList(): void {
+    this.productForm.reset();
+    this.router.navigate(['/products']);
+  }
+  saveProduct(): void {
+    if (this.productForm.valid) {
+      if (this.productForm.dirty) {
+        const p = { ...this.product, ...this.productForm.value };
+        if (p.id == 0) {
+          this.productService.createProduct(p)
+            .subscribe({
+              next: () => this.returnToProductList(),
+              error: err => this.errorMessage = err
+            });
+        } else {
+          this.productService.updateProduct(p)
+            .subscribe({
+              next: () => this.returnToProductList(),
+              error: err => this.errorMessage = err
+            });
+
+        }
+
+      } else {
+        this.returnToProductList();
+      }
+    } else {
+      this.errorMessage = "Please correct validation errors";
+    }
   }
 
 }

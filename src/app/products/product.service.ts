@@ -1,12 +1,39 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, retry, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, of, retry, tap, throwError } from 'rxjs';
 import { Product } from './product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  updateProduct(p: Product): Observable<Product> {
+    const productUrl = `${this.productUrl}/${p.id}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<Product>(productUrl, p, { headers })
+      .pipe(tap(() => console.log("Update product: " + p.id)),
+        // return the product after update
+        map(() => p),
+        catchError(this.handleError));
+  }
+
+  createProduct(p: Product): Observable<Product> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Product>(this.productUrl, p, { headers })
+      .pipe(tap(data => console.log("Create product: " + JSON.stringify(data))),
+        catchError(this.handleError));
+
+  }
+  deleteProduct(id: number): Observable<{}> {
+    const productUrl = `${this.productUrl}/${id}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete(productUrl, { headers }).pipe(
+      tap(data => console.log("Delete product " + id)),
+      catchError(this.handleError)
+    );
+  }
   private productUrl: string = 'api/products';
   getProduct(productId: number): Observable<Product> {
     if (productId === 0) {

@@ -1,22 +1,84 @@
 <div class="card">
   <div class="card-header" *ngIf="product">
-    {{pageTitle + ":" + product.productName}}
+    {{pageTitle}}
   </div>
   <div class="card-body" *ngIf="product">
-    <form novalidate (ngSubmit)="saveProduct()" [formGroup]="productForm"></form>
-
-    <div class="row mt-4">
-      <div class="col-md-4">
-        <button class="btn btn-danger mr-3" style="width: 80px;"><i class="bi bi-arrow-left"></i>Back</button>
-        <button
-          class="btn btn-outline-primary"
-          style="width: 80px; margin-left: 5px;"
-          [routerLink]="['/products', product.id, 'edit']"
-        >
-          Edit
-        </button>
+    <form novalidate (ngSubmit)="saveProduct()" [formGroup]="productForm">
+      <div class="row mb-2">
+        <label class="col-auto col-sm-2 col-form-label" for="name">Product Name:</label>
+        <div class="col-auto">
+          <input formControlName="productName" class="form-control" id="name" />
+        </div>
       </div>
-    </div>
+      <div class="row mb-2">
+        <label class="col-auto col-sm-2 col-form-label" for="code">Product Code:</label>
+        <div class="col-auto">
+          <input formControlName="productCode" class="form-control" id="code" />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-auto col-sm-2 col-form-label" for="description">Product Description:</label>
+        <div class="col-auto col-sm-6">
+          <input formControlName="description" class="form-control" id="description" />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-auto col-sm-2 col-form-label" for="starRating">Rating:</label>
+        <div class="col-auto">
+          <input formControlName="starRating" class="form-control" id="starRating" placeholder="Rating (1-5)" />
+        </div>
+      </div>
+
+      <div formArrayName="tags">
+        <div class="form-group row mb-2" *ngFor="let tag of tags.controls; let i = index;">
+          <label for="i" class="col-sm-2 col-form-label">Tag</label>
+          <div class="col-sm-10">
+            <input class="form-control" [id]="i" placeholder="Tag" [formControlName]="i" />
+            <button
+              class="btn btn-outline-warning btn-sm"
+              type="button"
+              title="Delete this search tag"
+              (click)="deleteTag(i)"
+            >
+              Delete Tag
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2 mb-2">
+          <button class="btn btn-outline-secondary btn-sm" type="button" title="Add a search tag" (click)="addTag()">
+            Add Tag
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <button class="btn btn-danger mr-3" style="width: 80px;" routerLink="['/products']">
+            Cancel
+          </button>
+          <button
+            class="btn btn-outline-warning"
+            style="width: 80px;"
+            title="Delete this product"
+            (click)="deleteProduct()"
+          >
+            Delete
+          </button>
+          <button
+            class="btn btn-outline-primary"
+            style="width: 80px; margin-left: 5px;"
+            type="submit"
+            [title]="productForm.valid? '': 'Please fix the issues'"
+            [disabled]="!productForm.valid"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
   <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
 </div>
