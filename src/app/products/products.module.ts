@@ -13,7 +13,8 @@ import { ProductEditTagsComponent } from './product-edit-tags/product-edit-tags.
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { ProductDataInMemoryDbService } from './product-data';
+import { InMemoryAppData } from '../inmemory-test-data/app-data';
+
 
 
 
@@ -29,7 +30,7 @@ import { ProductDataInMemoryDbService } from './product-data';
     CommonModule,
     SharedModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(ProductDataInMemoryDbService),
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryAppData),
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(
