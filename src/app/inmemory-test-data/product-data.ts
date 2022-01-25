@@ -11,8 +11,10 @@ export class ProductData {
       price: 19.95,
       starRating: 3.2,
       imageUrl: 'assets/images/leaf_rake.png',
-      category: 'Garden',
-      tags: ['rake', 'leaf', 'yard', 'home']
+      tags: ['rake', 'leaf', 'yard', 'home'],
+      categoryId: 1,
+      quantityInStock: 15,
+      supplierIds: [1, 2]
     },
     {
       id: 2,
@@ -23,7 +25,9 @@ export class ProductData {
       price: 32.99,
       starRating: 4.2,
       imageUrl: 'assets/images/garden_cart.png',
-      category: 'Garden'
+      categoryId: 1,
+      quantityInStock: 2,
+      supplierIds: [3, 4]
     },
     {
       id: 5,
@@ -34,7 +38,9 @@ export class ProductData {
       price: 8.9,
       starRating: 4.8,
       imageUrl: 'assets/images/hammer.png',
-      category: 'Toolbox',
+      categoryId: 3,
+      quantityInStock: 8,
+      supplierIds: [5, 6],
       tags: ['tools', 'hammer', 'construction']
     },
     {
@@ -46,7 +52,9 @@ export class ProductData {
       price: 11.55,
       starRating: 3.7,
       imageUrl: 'assets/images/saw.png',
-      category: 'Toolbox'
+      categoryId: 3,
+      quantityInStock: 6,
+      supplierIds: [7, 8]
     },
     {
       id: 10,
@@ -57,7 +65,9 @@ export class ProductData {
       price: 35.95,
       starRating: 4.6,
       imageUrl: 'assets/images/xbox-controller.png',
-      category: 'Gaming'
+      categoryId: 5,
+      quantityInStock: 12,
+      supplierIds: [9, 10]
     }
   ];
 
