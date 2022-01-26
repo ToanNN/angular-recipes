@@ -9,11 +9,17 @@ import { MessageModule } from './message/message/message.module';
 import { AppReactiveFormModule } from './reactive-form/reactive-form-module/app-reactive-form.module';
 import { AuthGuard } from './security/auth.guard';
 import { SecurityModule } from './security/security.module';
+import { ProductListComponent } from './product-rxjs/product-list/product-list.component';
+import { ProductShellComponent } from './product-rxjs/product-shell/product-shell.component';
+import { ProductDetailComponent } from './product-rxjs/product-detail/product-detail.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProductListComponent,
+    ProductShellComponent,
+    ProductDetailComponent
   ],
   imports: [
     BrowserModule,
