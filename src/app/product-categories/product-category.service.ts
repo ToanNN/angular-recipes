@@ -1,11 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
+import { ProductCategory } from './product-category';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductCategoryService {
+  getCategories(): Observable<ProductCategory[]> {
+
+    return this.http.get<ProductCategory[]>(this.productCategoryUrl)
+      .pipe(
+        tap(data => console.log("Category data: " + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
 
   private productCategoryUrl = 'api/productCategories';
   constructor(private http: HttpClient) { }

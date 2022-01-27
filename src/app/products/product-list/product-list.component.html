@@ -1,12 +1,22 @@
 <div class="card">
   <div class="card-header">Product List</div>
   <div class="card-body">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-3">
+          <select class="form-control" (change)="onCategorySelected($event.target)">
+            <option value="0">Display All</option>
+            <option *ngFor="let category of categories$ |async" [value]="category.id"> {{category.name}} </option>
+          </select>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <label>Filter by:</label>
       <input type="text" [(ngModel)]="filterText" />
     </div>
     <div class="row">
-      <table class="table-responsive table">
+      <table class="table-responsive table" *ngIf="products$ |async as filteredProducts">
         <thead>
           <tr>
             <td></td>

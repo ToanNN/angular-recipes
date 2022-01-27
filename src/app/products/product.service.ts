@@ -1,12 +1,31 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, retry, tap, throwError } from 'rxjs';
+import { catchError, combineLatest, map, Observable, of, retry, tap, throwError } from 'rxjs';
+import { ProductCategoryService } from '../product-categories/product-category.service';
+import { SupplierService } from '../suppliers/supplier.service';
 import { Product } from './product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+
+  productWithCategory$: Observable<Product[]>;
+  constructor(private http: HttpClient, private categoryService: ProductCategoryService,
+    private supplierService: SupplierService) {
+
+    const product$ = this.http.get<Product[]>(this.productUrl);
+    const category$ = this.categoryService.getCategories();
+    this.productWithCategory$ = combineLatest([product$, category$])
+      .pipe(map(([products, categories]) => {
+        return products.map(pr => ({
+          ...pr,
+          category: categories.find(c => c.id === pr.categoryId)?.name,
+          searchKey: [pr.productName]
+        } as Product))
+      }));
+  }
+
   updateProduct(p: Product): Observable<Product> {
     const productUrl = `${this.productUrl}/${p.id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -47,7 +66,7 @@ export class ProductService {
   }
 
 
-  constructor(private http: HttpClient) { }
+
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productUrl)

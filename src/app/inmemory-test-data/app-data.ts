@@ -7,8 +7,8 @@ export class InMemoryAppData implements InMemoryDbService {
   createDb() {
     const products = ProductData.products;
     const suppliers = SupplierData.suppliers;
-    const categories = ProductCategoryData.categories;
+    const productCategories = ProductCategoryData.categories;
 
-    return { products, suppliers, categories };
+    return { products, suppliers, productCategories };
   }
 }

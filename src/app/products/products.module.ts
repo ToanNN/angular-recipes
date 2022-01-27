@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryAppData } from '../inmemory-test-data/app-data';
+import { ProductCategoryService } from '../product-categories/product-category.service';
 
 
 
@@ -58,6 +59,6 @@ import { InMemoryAppData } from '../inmemory-test-data/app-data';
       ]
     )
   ],
-  providers: [ProductService]
+  providers: [ProductService, ProductCategoryService]
 })
 export class ProductsModule { }

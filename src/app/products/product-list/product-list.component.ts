@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, EMPTY, Observable, throwError } from 'rxjs';
+import { catchError, map, retry, tap } from 'rxjs/operators';
+import { ProductCategory } from 'src/app/product-categories/product-category';
+import { ProductCategoryService } from 'src/app/product-categories/product-category.service';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 
@@ -13,7 +15,7 @@ export class ProductListComponent implements OnInit {
 
   imageWidth = 50;
   imageMargin = 2;
-  filteredProducts: Product[]
+
 
   _filterText: string;
   errorMessage: string;
@@ -22,27 +24,43 @@ export class ProductListComponent implements OnInit {
   }
   set filterText(value: string) {
     this._filterText = value;
-    this.getProducts(this._filterText);
-  }
 
-  constructor(private prodService: ProductService) {
-    this.filteredProducts = [];
-    this._filterText = '';
+  }
+  products$: Observable<Product[]> | undefined;
+  categories$: Observable<ProductCategory[]> | undefined;
+  private selectedCategorySubject = new BehaviorSubject(0);
+  selectedCategoryActions = this.selectedCategorySubject.asObservable();
+
+  constructor(private productService: ProductService, private categoryService: ProductCategoryService) {
     this.errorMessage = '';
-  }
-
-  getProducts(filterText: string): void {
-    this.prodService.getProducts().subscribe({
-      next: prods => {
-        this.filteredProducts = prods.filter((product: Product) =>
-          product.productName.toLocaleLowerCase().indexOf(filterText) !== -1);
-      },
-      error: err => this.errorMessage = err
-    });
+    this._filterText = '';
   }
 
   ngOnInit(): void {
-    this.getProducts('');
+
+
+    let category$ = this.categoryService.getCategories();
+    this.categories$ = category$.pipe(catchError(err => {
+      this.errorMessage = err;
+      return EMPTY;
+    }))
+
+    this.products$ = combineLatest([this.productService.productWithCategory$,
+    this.selectedCategoryActions])
+      .pipe(map(([products, categoryId]) => products.filter(pr => categoryId ? pr.categoryId == categoryId : true))
+        , catchError(err => {
+          this.errorMessage = err;
+          return EMPTY;
+        }))
+  }
+
+  onCategorySelected(selectedElement: EventTarget | null): void {
+    const inputElement = selectedElement as HTMLInputElement;
+
+    if (inputElement && inputElement.value) {
+      this.selectedCategorySubject.next(+inputElement.value);
+    }
+
   }
 
 }
